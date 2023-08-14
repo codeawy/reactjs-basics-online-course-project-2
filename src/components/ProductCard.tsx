@@ -15,7 +15,7 @@ const ProductCard = ({ product }: IProps) => {
       <Image imageURL={imageURL} alt={"Product Name"} className="rounded-md h-52 w-full lg:object-cover" />
 
       <h3 className="text-lg font-semibold">{txtSlicer(title, 25)}</h3>
-      <p className="text-xs text-gray-500 break-words">{txtSlicer(description)}</p>
+      <p className="text-sm text-gray-500 break-words">{txtSlicer(description)}</p>
 
       <div className="flex items-center space-x-2">
         <span className="w-5 h-5 bg-indigo-600 rounded-full cursor-pointer" />
@@ -29,8 +29,8 @@ const ProductCard = ({ product }: IProps) => {
       </div>
 
       <div className="flex items-center justify-between space-x-2">
-        <Button className="bg-indigo-700">EDIT</Button>
-        <Button className="bg-red-700">DELETE</Button>
+        <Button className="bg-indigo-700 hover:bg-indigo-800">EDIT</Button>
+        <Button className="bg-red-700 hover:bg-red-800">DELETE</Button>
       </div>
     </div>
   );
