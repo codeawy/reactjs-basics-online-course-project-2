@@ -33,6 +33,8 @@ const App = () => {
     });
   };
 
+  console.log(product);
+
   /* ------- RENDER -------  */
   const renderProductList = productList.map(product => <ProductCard key={product.id} product={product} />);
   const renderFormInputList = formInputsList.map(input => (
@@ -40,9 +42,7 @@ const App = () => {
       <label htmlFor={input.id} className="mb-[2px] text-sm font-medium text-gray-700">
         {input.label}
       </label>
-      {/* LINE BELOW IN WRONG NOW FIX IT! */}
-      {/* <Input type="text" id={input.id} name={input.name} value={product[]} onChange={onChangeHandler} /> */}
-      <Input type="text" id={input.id} name={input.name} value={""} onChange={onChangeHandler} />
+      <Input type="text" id={input.id} name={input.name} value={product[input.name]} onChange={onChangeHandler} />
     </div>
   ));
 
