@@ -3,20 +3,35 @@ import Button from "./components/ui/Button";
 import Input from "./components/ui/Input";
 import Modal from "./components/ui/Modal";
 import { formInputsList, productList } from "./data";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
+import { IProduct } from "./interfaces";
 
 const App = () => {
   /* ------- STATE -------  */
+  const [product, setProduct] = useState<IProduct>({
+    title: "",
+    description: "",
+    imageURL: "",
+    price: "",
+    colors: [],
+    category: {
+      name: "",
+      imageURL: "",
+    },
+  });
   const [isOpen, setIsOpen] = useState(false);
 
   /* ------- HANDLER -------  */
-  function closeModal() {
-    setIsOpen(false);
-  }
+  const closeModal = () => setIsOpen(false);
+  const openModal = () => setIsOpen(true);
+  const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = event.target;
 
-  function openModal() {
-    setIsOpen(true);
-  }
+    setProduct({
+      ...product,
+      [name]: value,
+    });
+  };
 
   /* ------- RENDER -------  */
   const renderProductList = productList.map(product => <ProductCard key={product.id} product={product} />);
@@ -25,7 +40,9 @@ const App = () => {
       <label htmlFor={input.id} className="mb-[2px] text-sm font-medium text-gray-700">
         {input.label}
       </label>
-      <Input type="text" id={input.id} name={input.name} />
+      {/* LINE BELOW IN WRONG NOW FIX IT! */}
+      {/* <Input type="text" id={input.id} name={input.name} value={product[]} onChange={onChangeHandler} /> */}
+      <Input type="text" id={input.id} name={input.name} value={""} onChange={onChangeHandler} />
     </div>
   ));
 
@@ -38,13 +55,13 @@ const App = () => {
         {renderProductList}
       </div>
       <Modal isOpen={isOpen} closeModal={closeModal} title="ADD A NEW PRODUCT">
-        <div className="space-y-3">
+        <form className="space-y-3">
           {renderFormInputList}
           <div className="flex items-center space-x-3">
             <Button className="bg-indigo-700 hover:bg-indigo-800">Submit</Button>
             <Button className="bg-gray-400 hover:bg-gray-500">Cancel</Button>
           </div>
-        </div>
+        </form>
       </Modal>
     </main>
   );
