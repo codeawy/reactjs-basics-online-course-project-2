@@ -223,7 +223,10 @@ const App = () => {
           {renderProductEditWithErrorMsg("imageURL", "Product Image URL", "imageURL")}
           {renderProductEditWithErrorMsg("price", "Product Price", "price")}
 
-          {/* <Select selected={selectedCategory} setSelected={setSelectedCategory} /> */}
+          <Select
+            selected={productToEdit.category}
+            setSelected={value => setProductToEdit({ ...productToEdit, category: value })}
+          />
 
           <div className="flex items-center flex-wrap space-x-1">{renderProductColors}</div>
           <div className="flex items-center flex-wrap space-x-1">
