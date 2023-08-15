@@ -1,14 +1,15 @@
+import { ChangeEvent, FormEvent, useState } from "react";
+import { v4 as uuid } from "uuid";
+import CircleColor from "./components/CircleColor";
+import ErrorMessage from "./components/ErrorMessage";
 import ProductCard from "./components/ProductCard";
 import Button from "./components/ui/Button";
 import Input from "./components/ui/Input";
 import Modal from "./components/ui/Modal";
 import { colors, formInputsList, productList } from "./data";
-import { ChangeEvent, FormEvent, useState } from "react";
 import { IProduct } from "./interfaces";
 import { productValidation } from "./validation";
-import ErrorMessage from "./components/ErrorMessage";
-import CircleColor from "./components/CircleColor";
-import { v4 as uuid } from "uuid";
+import Select from "./components/ui/Select";
 
 const App = () => {
   const defaultProductObj = {
@@ -116,6 +117,7 @@ const App = () => {
       <Modal isOpen={isOpen} closeModal={closeModal} title="ADD A NEW PRODUCT">
         <form className="space-y-3" onSubmit={submitHandler}>
           {renderFormInputList}
+          <Select />
           <div className="flex items-center flex-wrap space-x-1">{renderProductColors}</div>
           <div className="flex items-center flex-wrap space-x-1">
             {tempColors.map(color => (
