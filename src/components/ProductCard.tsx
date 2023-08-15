@@ -34,6 +34,7 @@ const ProductCard = ({
   };
 
   const onRemove = () => {
+    setProductToEdit(product);
     openConfirmModal();
   };
 

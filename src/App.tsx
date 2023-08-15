@@ -11,6 +11,7 @@ import { IProduct } from "./interfaces";
 import { productValidation } from "./validation";
 import Select from "./components/ui/Select";
 import { ProductNameTypes } from "./types";
+import toast, { Toaster } from "react-hot-toast";
 
 const App = () => {
   const defaultProductObj = {
@@ -75,6 +76,19 @@ const App = () => {
     closeModal();
   };
 
+  const removeProductHandler = () => {
+    const filtered = products.filter(product => product.id !== productToEdit.id);
+    setProducts(filtered);
+    closeConfirmModal();
+    toast("Product has been deleted successfully!", {
+      icon: "👏",
+      style: {
+        backgroundColor: "#c2344d",
+        color: "white",
+      },
+    });
+  };
+
   const submitHandler = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     const { title, description, price, imageURL } = product;
@@ -98,6 +112,14 @@ const App = () => {
     setProduct(defaultProductObj);
     setTempColor([]);
     closeModal();
+
+    toast("Product has been added successfully!", {
+      icon: "👏",
+      style: {
+        backgroundColor: "black",
+        color: "white",
+      },
+    });
   };
 
   const submitEditHandler = (event: FormEvent<HTMLFormElement>): void => {
@@ -126,6 +148,14 @@ const App = () => {
     setProductToEdit(defaultProductObj);
     setTempColor([]);
     closeEditModal();
+
+    toast("Product has been updated successfully!", {
+      icon: "👏",
+      style: {
+        backgroundColor: "black",
+        color: "white",
+      },
+    });
   };
 
   /* ------- RENDER -------  */
@@ -262,12 +292,16 @@ const App = () => {
         description="Deleting this product will remove it permanently from your inventory. Any associated data, sales history, and other related information will also be deleted. Please make sure this is the intended action."
       >
         <div className="flex items-center space-x-3">
-          <Button className="bg-[#c2344d] hover:bg-red-800">Yes, remove</Button>
+          <Button className="bg-[#c2344d] hover:bg-red-800" onClick={removeProductHandler}>
+            Yes, remove
+          </Button>
           <Button className="bg-[#f5f5fa] hover:bg-gray-300 text-black" onClick={closeConfirmModal}>
             Cancel
           </Button>
         </div>
       </Modal>
+
+      <Toaster />
     </main>
   );
 };
