@@ -185,7 +185,4 @@ export const colors: string[] = [
   "#CB1C8D",
   "#000000",
   "#645CBB",
-  "#1F8A70",
-  "#820000",
-  "#FF0032",
 ];

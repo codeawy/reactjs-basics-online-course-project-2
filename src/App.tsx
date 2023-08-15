@@ -8,6 +8,7 @@ import { IProduct } from "./interfaces";
 import { productValidation } from "./validation";
 import ErrorMessage from "./components/ErrorMessage";
 import CircleColor from "./components/CircleColor";
+import { v4 as uuid } from "uuid";
 
 const App = () => {
   const defaultProductObj = {
@@ -22,8 +23,10 @@ const App = () => {
     },
   };
   /* ------- STATE -------  */
+  const [products, setProducts] = useState<IProduct[]>(productList);
   const [product, setProduct] = useState<IProduct>(defaultProductObj);
   const [errors, setErrors] = useState({ title: "", description: "", imageURL: "", price: "" });
+  const [tempColors, setTempColor] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(false);
 
   /* ------- HANDLER -------  */
@@ -65,11 +68,14 @@ const App = () => {
       return;
     }
 
-    console.log("SEND THIS PRODUCT TO OUR SERVER");
+    setProducts(prev => [{ ...product, id: uuid(), colors: tempColors }, ...prev]);
+    setProduct(defaultProductObj);
+    setTempColor([]);
+    closeModal();
   };
 
   /* ------- RENDER -------  */
-  const renderProductList = productList.map(product => <ProductCard key={product.id} product={product} />);
+  const renderProductList = products.map(product => <ProductCard key={product.id} product={product} />);
   const renderFormInputList = formInputsList.map(input => (
     <div className="flex flex-col" key={input.id}>
       <label htmlFor={input.id} className="mb-[2px] text-sm font-medium text-gray-700">
@@ -79,7 +85,19 @@ const App = () => {
       <ErrorMessage msg={errors[input.name]} />
     </div>
   ));
-  const renderProductColors = colors.map(color => <CircleColor key={color} color={color} />);
+  const renderProductColors = colors.map(color => (
+    <CircleColor
+      key={color}
+      color={color}
+      onClick={() => {
+        if (tempColors.includes(color)) {
+          setTempColor(prev => prev.filter(item => item !== color));
+          return;
+        }
+        setTempColor(prev => [...prev, color]);
+      }}
+    />
+  ));
 
   return (
     <main className="container">
@@ -99,6 +117,17 @@ const App = () => {
         <form className="space-y-3" onSubmit={submitHandler}>
           {renderFormInputList}
           <div className="flex items-center flex-wrap space-x-1">{renderProductColors}</div>
+          <div className="flex items-center flex-wrap space-x-1">
+            {tempColors.map(color => (
+              <span
+                key={color}
+                className="p-1 mr-1 mb-1 text-xs rounded-md text-white"
+                style={{ backgroundColor: color }}
+              >
+                {color}
+              </span>
+            ))}
+          </div>
 
           <div className="flex items-center space-x-3">
             <Button className="bg-indigo-700 hover:bg-indigo-800">Submit</Button>
