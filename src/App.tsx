@@ -28,6 +28,7 @@ const App = () => {
   const [products, setProducts] = useState<IProduct[]>(productList);
   const [product, setProduct] = useState<IProduct>(defaultProductObj);
   const [productToEdit, setProductToEdit] = useState<IProduct>(defaultProductObj);
+  const [productToEditIdx, setProductToEditIdx] = useState<number>(0);
   const [errors, setErrors] = useState({ title: "", description: "", imageURL: "", price: "" });
   const [tempColors, setTempColor] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -115,14 +116,25 @@ const App = () => {
       return;
     }
 
+    const updatedProducts = [...products];
+    updatedProducts[productToEditIdx] = { ...productToEdit, colors: tempColors.concat(productToEdit.colors) };
+    setProducts(updatedProducts);
+
     setProductToEdit(defaultProductObj);
     setTempColor([]);
-    closeModal();
+    closeEditModal();
   };
 
   /* ------- RENDER -------  */
-  const renderProductList = products.map(product => (
-    <ProductCard key={product.id} product={product} setProductToEdit={setProductToEdit} openEditModal={openEditModal} />
+  const renderProductList = products.map((product, idx) => (
+    <ProductCard
+      key={product.id}
+      product={product}
+      setProductToEdit={setProductToEdit}
+      openEditModal={openEditModal}
+      idx={idx}
+      setProductToEditIdx={setProductToEditIdx}
+    />
   ));
   const renderFormInputList = formInputsList.map(input => (
     <div className="flex flex-col" key={input.id}>
@@ -139,6 +151,10 @@ const App = () => {
       color={color}
       onClick={() => {
         if (tempColors.includes(color)) {
+          setTempColor(prev => prev.filter(item => item !== color));
+          return;
+        }
+        if (productToEdit.colors.includes(color)) {
           setTempColor(prev => prev.filter(item => item !== color));
           return;
         }
@@ -209,9 +225,9 @@ const App = () => {
 
           {/* <Select selected={selectedCategory} setSelected={setSelectedCategory} /> */}
 
-          {/* <div className="flex items-center flex-wrap space-x-1">{renderProductColors}</div>
+          <div className="flex items-center flex-wrap space-x-1">{renderProductColors}</div>
           <div className="flex items-center flex-wrap space-x-1">
-            {tempColors.map(color => (
+            {tempColors.concat(productToEdit.colors).map(color => (
               <span
                 key={color}
                 className="p-1 mr-1 mb-1 text-xs rounded-md text-white"
@@ -220,7 +236,7 @@ const App = () => {
                 {color}
               </span>
             ))}
-          </div> */}
+          </div>
 
           <div className="flex items-center space-x-3">
             <Button className="bg-indigo-700 hover:bg-indigo-800">Submit</Button>
