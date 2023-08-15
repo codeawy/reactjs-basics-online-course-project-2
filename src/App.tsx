@@ -33,6 +33,7 @@ const App = () => {
   const [tempColors, setTempColor] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenEditModal, setIsOpenEditModal] = useState(false);
+  const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(categories[0]);
 
   /* ------- HANDLER -------  */
@@ -40,6 +41,8 @@ const App = () => {
   const openModal = () => setIsOpen(true);
   const closeEditModal = () => setIsOpenEditModal(false);
   const openEditModal = () => setIsOpenEditModal(true);
+  const closeConfirmModal = () => setIsOpenConfirmModal(false);
+  const openConfirmModal = () => setIsOpenConfirmModal(true);
 
   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = event.target;
@@ -134,6 +137,7 @@ const App = () => {
       openEditModal={openEditModal}
       idx={idx}
       setProductToEditIdx={setProductToEditIdx}
+      openConfirmModal={openConfirmModal}
     />
   ));
   const renderFormInputList = formInputsList.map(input => (
@@ -181,7 +185,7 @@ const App = () => {
         onClick={openModal}
         width="w-fit"
       >
-        Build Product
+        Build a Product
       </Button>
 
       <div className="m-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-4 p-2 rounded-md">
@@ -243,11 +247,26 @@ const App = () => {
 
           <div className="flex items-center space-x-3">
             <Button className="bg-indigo-700 hover:bg-indigo-800">Submit</Button>
-            <Button className="bg-gray-400 hover:bg-gray-500" onClick={onCancel}>
+            <Button className="bg-[#f5f5fa] hover:bg-gray-300 text-black" onClick={onCancel}>
               Cancel
             </Button>
           </div>
         </form>
+      </Modal>
+
+      {/* DELETE PRODUCT CONFIRM MODAL */}
+      <Modal
+        isOpen={isOpenConfirmModal}
+        closeModal={closeConfirmModal}
+        title="Are you sure you want to remove this Product from your Store?"
+        description="Deleting this product will remove it permanently from your inventory. Any associated data, sales history, and other related information will also be deleted. Please make sure this is the intended action."
+      >
+        <div className="flex items-center space-x-3">
+          <Button className="bg-[#c2344d] hover:bg-red-800">Yes, remove</Button>
+          <Button className="bg-[#f5f5fa] hover:bg-gray-300 text-black" onClick={closeConfirmModal}>
+            Cancel
+          </Button>
+        </div>
       </Modal>
     </main>
   );
