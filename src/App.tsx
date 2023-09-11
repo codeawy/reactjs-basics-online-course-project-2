@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState, useCallback } from "react";
 import { v4 as uuid } from "uuid";
 import CircleColor from "./components/CircleColor";
 import ErrorMessage from "./components/ErrorMessage";
@@ -40,10 +40,10 @@ const App = () => {
   /* ------- HANDLER -------  */
   const closeModal = () => setIsOpen(false);
   const openModal = () => setIsOpen(true);
-  const closeEditModal = () => setIsOpenEditModal(false);
+  const closeEditModal = useCallback(() => setIsOpenEditModal(false), []);
   const openEditModal = () => setIsOpenEditModal(true);
   const closeConfirmModal = () => setIsOpenConfirmModal(false);
-  const openConfirmModal = () => setIsOpenConfirmModal(true);
+  const openConfirmModal = useCallback(() => setIsOpenConfirmModal(true), []);
 
   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = event.target;
