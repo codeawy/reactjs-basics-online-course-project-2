@@ -40,8 +40,8 @@ const App = () => {
   /* ------- HANDLER -------  */
   const closeModal = () => setIsOpen(false);
   const openModal = () => setIsOpen(true);
-  const closeEditModal = useCallback(() => setIsOpenEditModal(false), []);
-  const openEditModal = () => setIsOpenEditModal(true);
+  const closeEditModal = () => setIsOpenEditModal(false);
+  const openEditModal = useCallback(() => setIsOpenEditModal(true), []);
   const closeConfirmModal = () => setIsOpenConfirmModal(false);
   const openConfirmModal = useCallback(() => setIsOpenConfirmModal(true), []);
 
