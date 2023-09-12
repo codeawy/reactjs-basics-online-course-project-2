@@ -236,7 +236,7 @@ const App = () => {
 
           <div className="flex items-center space-x-3">
             <Button className="bg-indigo-700 hover:bg-indigo-800">Submit</Button>
-            <Button className="bg-gray-400 hover:bg-gray-500" onClick={onCancel}>
+            <Button className="bg-[#f5f5fa] hover:bg-gray-300 !text-black" onClick={onCancel}>
               Cancel
             </Button>
           </div>
@@ -271,7 +271,7 @@ const App = () => {
 
           <div className="flex items-center space-x-3">
             <Button className="bg-indigo-700 hover:bg-indigo-800">Submit</Button>
-            <Button className="bg-[#f5f5fa] hover:bg-gray-300 text-black" onClick={onCancel}>
+            <Button className="bg-[#f5f5fa] hover:bg-gray-300 !text-black" onClick={onCancel}>
               Cancel
             </Button>
           </div>
@@ -289,7 +289,7 @@ const App = () => {
           <Button className="bg-[#c2344d] hover:bg-red-800" onClick={removeProductHandler}>
             Yes, remove
           </Button>
-          <Button className="bg-[#f5f5fa] hover:bg-gray-300 text-black" onClick={closeConfirmModal}>
+          <Button className="bg-[#f5f5fa] hover:bg-gray-300 !text-black" onClick={closeConfirmModal}>
             Cancel
           </Button>
         </div>
