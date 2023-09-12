@@ -1,4 +1,5 @@
-import { ChangeEvent, FormEvent, useState, useCallback } from "react";
+import { ChangeEvent, FormEvent, useCallback, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { v4 as uuid } from "uuid";
 import CircleColor from "./components/CircleColor";
 import ErrorMessage from "./components/ErrorMessage";
@@ -6,12 +7,11 @@ import ProductCard from "./components/ProductCard";
 import Button from "./components/ui/Button";
 import Input from "./components/ui/Input";
 import Modal from "./components/ui/Modal";
+import Select from "./components/ui/Select";
 import { categories, colors, formInputsList, productList } from "./data";
 import { IProduct } from "./interfaces";
-import { productValidation } from "./validation";
-import Select from "./components/ui/Select";
 import { ProductNameTypes } from "./types";
-import toast, { Toaster } from "react-hot-toast";
+import { productValidation } from "./validation";
 
 const App = () => {
   const defaultProductObj = {
@@ -38,25 +38,19 @@ const App = () => {
   const [selectedCategory, setSelectedCategory] = useState(categories[0]);
 
   /* ------- HANDLER -------  */
-  const closeModal = () => setIsOpen(false);
+  const closeModal = useCallback(() => setIsOpen(false), []);
   const openModal = () => setIsOpen(true);
   const closeEditModal = () => setIsOpenEditModal(false);
   const openEditModal = useCallback(() => setIsOpenEditModal(true), []);
   const closeConfirmModal = () => setIsOpenConfirmModal(false);
   const openConfirmModal = useCallback(() => setIsOpenConfirmModal(true), []);
 
-  const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+  const onChangeHandler = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = event.target;
 
-    setProduct({
-      ...product,
-      [name]: value,
-    });
-    setErrors({
-      ...errors,
-      [name]: "",
-    });
-  };
+    setProduct(prev => ({ ...prev, [name]: value }));
+    setErrors(prev => ({ ...prev, [name]: "" }));
+  }, []);
 
   const onChangeEditHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = event.target;
